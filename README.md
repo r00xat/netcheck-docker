@@ -61,7 +61,7 @@ services:
   netcheck:
     image: netcheck:own  # Adjust if your image has a different name/tag
     container_name: netcheck_monitor  # Optional but descriptive
-
+    restart: always
     ports:
       - "9000:9000"  # Maps host port 9000 to container port 9000
 
