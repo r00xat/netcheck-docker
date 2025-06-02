@@ -1,11 +1,17 @@
 ## 📝 Modifications
 
-This project is based on the original [netcheck](https://github.com/TristanBrotherton/netcheck) by [@TristanBrotherton](https://github.com/TristanBrotherton).
+This repository adapts the original [netcheck](https://github.com/TristanBrotherton/netcheck) by [@TristanBrotherton](https://github.com/TristanBrotherton) to run fully containerized in Docker. All credit for the core functionality goes to the original author.
 
 Changes made for Docker compatibility:
 
 ### Modified files from the original project:
 - **`netcheck.sh`**
+  - **Python 2 fix:** Changed  
+    `python -m SimpleHTTPServer $1 0.0.0.0` → `python -m SimpleHTTPServer $1`  
+    (Python 2 binds to all interfaces by default)
+  - **Python 3 fix:** Changed  
+    `python3 -m http.server $1 0.0.0.0` → `python3 -m http.server $1 -b 0.0.0.0`  
+    (Python 3 requires explicit bind address via `-b`)
 - **`log/index.html`**
 
 ### New files added:
@@ -35,3 +41,5 @@ Changes made for Docker compatibility:
 - `log/styles.css` *(new)*
 
 These files are copied into the image and served via Python’s built-in HTTP server.
+These changes aim to make `netcheck` easily deployable in containerized environments such as Docker and Portainer.
+
