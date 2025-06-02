@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8>
+<meta name=apple-mobile-web-app-capable content=yes>
+<title>Netcheck by r00x</title>
+<link href="fonts/source_code_pro/font.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="js/moment.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/livestamp.min.js"></script>
+<script>
+// Time in seconds to check for new data.
+var UPDATE_STATS_INTERVAL_SECONDS = 60;
+// Disable caching
+$.ajaxSetup({
+    cache: false
+});
+// Get log data
+function getConnectionData() {
+    $(".status-message").html("Checking Connection...");
+    $.get("connection.log", function(b) {
+        var a = new Date();
+        $(".data-container").html(b);
+        $(".data-container").animate({
+            scrollTop: $(".data-container").prop("scrollHeight")
+        }, 1000);
+        setTimeout(function() {
+            $(".status-message").html("Last checked: <time class='time-checked'></time>");
+            $(".time-checked").livestamp(new Date(a))
+        }, 2000)
+    })
+};
+// Update log data every N seconds
+function updateConnectionData() {
+    setInterval(function() {
+            getConnectionData();
+        }, (UPDATE_STATS_INTERVAL_SECONDS * 1000));
+};
+// Fire it all up
+$(document).ready(function() {
+    getConnectionData();
+    updateConnectionData();
+    $(".status-message").click(function() {
+        getConnectionData()
+    });
+});
+</script>
+</head>
+<body>
+<div class=terminal>
+<p class=label>Netcheck - <span class=status-message></span></p>
+<div class=data-container>
+</div>
+</div>
+<div class=footer>
+Made with ❤️ by Tristan Brotherton -
+<a href=https://github.com/TristanBrotherton/netcheck> Get it on Github<br>
+</a>
+edited by r00x - 
+<a href=https://github.com/r00xat/netcheck-docker> Check it out on Github
+</a>
+</div>
+</body>
+</html>
